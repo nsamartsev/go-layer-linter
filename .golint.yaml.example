@@ -1,0 +1,5 @@
+layered_imports:
+  - layer: handler
+    allows: service
+  - layer: service
+    allows: repository
