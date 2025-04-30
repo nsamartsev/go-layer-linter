@@ -1,8 +1,8 @@
 package config
 
 import (
-	"io/ioutil"
 	"log"
+	"os"
 
 	"gopkg.in/yaml.v2"
 )
@@ -17,7 +17,7 @@ type LinterConfig struct {
 }
 
 func LoadConfig(path string) *LinterConfig {
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatalf("Can't read config: %v", err)
 	}

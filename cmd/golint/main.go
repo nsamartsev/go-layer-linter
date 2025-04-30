@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nsamartsev/go-layer-linter/analyzer"
+	"github.com/nsamartsev/go-layer-linter/internal/analyzer"
 	"github.com/spf13/cobra"
 )
 

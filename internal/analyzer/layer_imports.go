@@ -20,9 +20,12 @@ func Run(projectDir string) {
 		"repository": "internal/repository",
 	}
 
-	for layer, allowed := range cfg.LayeredImports {
-		allowedPath := layerToPath[allowed]
+	for _, rule := range cfg.LayeredImports {
+		layer := rule.Layer
+		allowed := rule.Allows
+
 		layerPath := layerToPath[layer]
+		allowedPath := layerToPath[allowed]
 
 		files := utils.WalkGoFiles(filepath.Join(projectDir, layerPath))
 
@@ -36,7 +39,7 @@ func Run(projectDir string) {
 			for _, imp := range node.Imports {
 				pkgName := strings.Trim(imp.Path.Value, "\"")
 
-				if !strings.Contains(pkgName, allowedPath) && strings.Contains(pkgName, "internal") {
+				if strings.Contains(pkgName, "internal") && !strings.HasPrefix(pkgName, allowedPath) {
 					fmt.Printf("[ERROR] Forbidden import: %s -> %s in %s\n", layer, pkgName, file)
 				}
 			}
