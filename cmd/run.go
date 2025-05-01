@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/nsamartsev/go-layer-linter/internal/rules"
 	"github.com/spf13/cobra"
@@ -15,10 +16,13 @@ var runCmd = &cobra.Command{
 		issues := rules.RunAnalysis(dir)
 		if len(issues) == 0 {
 			fmt.Println("✅ Архитектурных нарушений не найдено.")
+			os.Exit(0)
 		} else {
 			for _, issue := range issues {
 				fmt.Println(issue)
 			}
+			fmt.Printf("\nНайдено %d нарушений.\n", len(issues))
+			os.Exit(1)
 		}
 	},
 }

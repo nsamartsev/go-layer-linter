@@ -1,0 +1,23 @@
+name: Go Layer Linter
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install DDD Linter
+        run: |
+          curl -L https://github.com/nsamartsev/go-layer-linter/releases/latest/download/go-layer-linter_linux_amd64.tar.gz | tar xz
+          sudo mv go-layer-linter /usr/local/bin/
+
+      - name: Run linter
+        run: |
+          go-layer-linter run --dir ./samples/ddd-project
