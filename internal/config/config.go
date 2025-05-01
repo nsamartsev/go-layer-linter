@@ -1,32 +1,32 @@
 package config
 
 import (
-	"log"
 	"os"
 
 	"gopkg.in/yaml.v2"
 )
 
-type LayerRule struct {
-	Layer  string `yaml:"layer"`
-	Allows string `yaml:"allows"`
+type Layer struct {
+	Package        string   `yaml:"package"`
+	ImportsAllowed []string `yaml:"imports_allowed"`
 }
 
-type LinterConfig struct {
-	LayeredImports []LayerRule `yaml:"layered_imports"`
+type Config struct {
+	ForbiddenPackagesInDomain []string         `yaml:"forbidden_packages_in_domain"`
+	Layers                    map[string]Layer `yaml:"ddd.layers"`
 }
 
-func LoadConfig(path string) *LinterConfig {
-	data, err := os.ReadFile(path)
+func LoadConfig() (*Config, error) {
+	data, err := os.ReadFile(".dddlint.yaml")
 	if err != nil {
-		log.Fatalf("Can't read config: %v", err)
+		return nil, err
 	}
 
-	var config LinterConfig
-	err = yaml.Unmarshal(data, &config)
+	var cfg Config
+	err = yaml.Unmarshal(data, &cfg)
 	if err != nil {
-		log.Fatalf("Can't parse config: %v", err)
+		return nil, err
 	}
 
-	return &config
+	return &cfg, nil
 }
