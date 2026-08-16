@@ -1,0 +1,30 @@
+forbidden_packages_in_domain:
+  - "database/sql"
+  - "log"
+  - "fmt"
+  - "net/http"
+  - "time"
+  - "encoding/json"
+
+ddd:
+  layers:
+    domain:
+      package: "internal/domain"
+      imports_allowed: []
+
+    application:
+      package: "internal/application"
+      imports_allowed:
+        - "internal/domain"
+
+    infrastructure:
+      package: "internal/infrastructure"
+      imports_allowed:
+        - "internal/domain"
+        - "internal/application"
+
+    interfaces:
+      package: "internal/interfaces"
+      imports_allowed:
+        - "internal/domain"
+        - "internal/application"
