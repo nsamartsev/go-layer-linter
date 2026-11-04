@@ -1,0 +1,13 @@
+ddd:
+  layers:
+    handler:
+      package: internal/handler
+      imports_allowed:
+        - internal/service
+    service:
+      package: internal/service
+      imports_allowed:
+        - internal/repository
+    repository:
+      package: internal/repository
+      imports_allowed: []
